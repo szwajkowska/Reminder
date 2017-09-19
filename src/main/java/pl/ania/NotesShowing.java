@@ -1,4 +1,5 @@
 package pl.ania;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,22 +12,22 @@ public class NotesShowing {
         return notesMap;
     }
 
-    public void showNote(List<Note> noteList) {
+    public void showNote(List<Note> noteList, PrintWriter out) {
 
         for (Integer i = 0; i < noteList.size(); i++) {
             Note note = noteList.get(i);
-            System.out.println((i + 1) + ")" + note.getTitle() + " " + note.getDate());
+            out.println((i + 1) + ")" + note.getTitle() + " " + note.getDate());
             Integer iPlusOne = i + 1;
             notesMap.put(iPlusOne.toString(), note.getId());
         }
 
     }
 
-    public String readBody(String key, List<Note> noteList) {
+    public String readBody(String key, List<Note> noteList, PrintWriter out) {
         String id = notesMap.get(key);
         noteList.stream()
             .filter(note -> note.getId().equals(id))
-            .forEach(note -> System.out.println("Treść notatki to: " + note.getBody()));
+            .forEach(note -> out.println("Treść notatki to: " + note.getBody()));
         return id;
     }
 

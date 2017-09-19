@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,8 +16,9 @@ import java.util.List;
 public class ReminderTest {
 
     NotesRepository notesRepository = Mockito.mock(NotesRepository.class);
+    PrintWriter out = Mockito.mock(PrintWriter.class);
 
-    Reminder reminder = new Reminder(notesRepository);
+    Reminder reminder = new Reminder(notesRepository, out);
 
     @Test
     public void shouldRemind() throws Exception {
@@ -53,7 +55,7 @@ public class ReminderTest {
         noteList.add(note);
         boolean wasRemind = reminder.checkIfWasRemind(note);
         //then
-        Assert.assertTrue(wasRemind);
+        Assert.assertTrue(!wasRemind);
 
     }
 }

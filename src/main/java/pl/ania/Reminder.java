@@ -1,5 +1,6 @@
 package pl.ania;
 
+import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -7,10 +8,12 @@ import java.util.stream.Collectors;
 public class Reminder implements Runnable {
 
     private final NotesRepository notesRepository;
+    private PrintWriter out;
 
 
-    public Reminder(NotesRepository notesRepository) {
+    public Reminder(NotesRepository notesRepository, PrintWriter out) {
         this.notesRepository = notesRepository;
+        this.out = out;
     }
 
     boolean isFromPast(Note note) {
@@ -33,14 +36,14 @@ public class Reminder implements Runnable {
         List<Note> notesForReminding = findNotesForReminding();
         if (!notesForReminding.isEmpty()) {
 
-            System.out.println("-----------------------------------------");
-            System.out.println("PRZYPOMINAJKA!!!");
+            out.println("-----------------------------------------");
+            out.println("PRZYPOMINAJKA!!!");
             notesForReminding
-                .forEach(note -> System.out.println(note.getTitle()));
+                .forEach(note -> out.println(note.getTitle()));
             notesForReminding
                 .forEach(notesRepository::markAsReminded);
-            System.out.println("PRZYPOMINAJKA!!!");
-            System.out.println("-----------------------------------------");
+            out.println("PRZYPOMINAJKA!!!");
+            out.println("-----------------------------------------");
 
         }
 

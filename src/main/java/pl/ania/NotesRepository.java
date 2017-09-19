@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 public class NotesRepository {
@@ -41,10 +40,7 @@ public class NotesRepository {
                 .forEach(file -> {
                     try {
                         List<String> lines = Files.readAllLines(file);
-//                        String filename = file.getFileName().toString();
-
                         notesList.add(new Note(lines.get(0),
-                            //filename.substring(0, filename.length() - 4),
                             lines.get(1),
                             LocalDateTime.parse(lines.get(2)),
                             Boolean.valueOf(lines.get(3)),
@@ -107,7 +103,6 @@ public class NotesRepository {
         notesList.remove(oldNote);
         notesList.add(newNote);
         notesList.forEach(this::saveNote);
-
     }
 
 }

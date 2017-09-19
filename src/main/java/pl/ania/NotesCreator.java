@@ -1,5 +1,7 @@
 package pl.ania;
 
+import java.io.BufferedReader;
+import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -9,34 +11,35 @@ import java.util.UUID;
 
 public class NotesCreator {
 
-    Scanner scanner = new Scanner(System.in);
-
+    Scanner scanner;
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
+    public NotesCreator(BufferedReader in) {
+        scanner = new Scanner(in);
+    }
 
-    public Note createNote() {
-        String title = showQuestionAndReadAnswer("Proszę podać tytuł notatki");
-        String body = showQuestionAndReadAnswer("Proszę podać tresc notatki");
-        return new Note(title, body, addDate("Proszę podać datę w formacie yyyy-MM-dd HH:mm"), false, UUID.randomUUID().toString());
+    public Note createNote(PrintWriter out) {
+        String title = showQuestionAndReadAnswer("Proszę podać tytuł notatki", out);
+        String body = showQuestionAndReadAnswer("Proszę podać tresc notatki", out);
+        return new Note(title, body, addDate("Proszę podać datę w formacie yyyy-MM-dd HH:mm", out), false, UUID.randomUUID().toString());
 
     }
 
-    private LocalDateTime addDate(String message) {
+    private LocalDateTime addDate(String message, PrintWriter out) {
         while (true) {
-
-            String date = showQuestionAndReadAnswer(message);
+            String date = showQuestionAndReadAnswer(message, out);
             try {
-                System.out.println("Notatka została zapisana");
+                out.println("Notatka została zapisana");
                 return LocalDateTime.parse(date, formatter);
             } catch (DateTimeParseException pe) {
                 pe.printStackTrace();
             }
-            System.out.println("Niepoprawny format daty! Spróbuj jeszcze raz");
+            out.println("Niepoprawny format daty! Spróbuj jeszcze raz");
         }
 
     }
 
-    public Note modifyNote(Note oldNote) {
+    public Note modifyNote(Note oldNote, PrintWriter out) {
 
         String title = oldNote.getTitle();
         String body = oldNote.getBody();
@@ -46,25 +49,25 @@ public class NotesCreator {
         while (true) {
             String userChoice = showQuestionAndReadAnswer("Co chcesz zmodyfikować? \n1) Zmień tytuł - wybierz 1" +
                 "\n2)Zmień treść notatki - wybierz 2\n3)Zmień datę przypomnienia - wybierz 3\n" +
-                "4)Cofnij - wybierz x ");
+                "4)Cofnij - wybierz x ", out);
 
             if (userAnswer("1", userChoice)) {
-                title = showQuestionAndReadAnswer("Podaj nowy tytuł");
+                title = showQuestionAndReadAnswer("Podaj nowy tytuł", out);
                 reminded = false;
             } else if (userAnswer("2", userChoice)) {
-                body = showQuestionAndReadAnswer("Podaj nową treść");
+                body = showQuestionAndReadAnswer("Podaj nową treść", out);
                 reminded = false;
             } else if (userAnswer("3", userChoice)) {
-                date = addDate("Podaj nową datę");
+                date = addDate("Podaj nową datę", out);
                 reminded = false;
             } else if (userAnswer("x", userChoice)) {
                 break;
             } else {
-                System.out.println("Nieprawidłowy wybór. Spróbuj jeszcze raz");
+                out.println("Nieprawidłowy wybór. Spróbuj jeszcze raz");
             }
 
             newNote = new Note(title, body, date, reminded, oldNote.getId());
-            System.out.println("Notatka zostałą zmodyfikowana");
+            out.println("Notatka zostałą zmodyfikowana");
 
         }
         return newNote;
@@ -74,8 +77,8 @@ public class NotesCreator {
         return userChoice.equalsIgnoreCase(userResponse);
     }
 
-    private String showQuestionAndReadAnswer(String question) {
-        System.out.println(question);
+    private String showQuestionAndReadAnswer(String question, PrintWriter out) {
+        out.println(question);
         return scanner.nextLine();
     }
 
