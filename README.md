@@ -1,7 +1,7 @@
 # Reminder
 
 Program, which allows to save and read notes. Each note contains title, body, date and time when it should be remained. 
-At the right time user get the information about the proper note. When application is not running, all notes from the past which weren't remined are remined after the program start.
+At the right time user get the information about the proper note. When application is not running, all notes from the past which weren't remined are remained after the program start.
 
 <b>Code example</b>
   
