@@ -1,7 +1,7 @@
 # Reminder
 
-Project is a program, which allows to save and read notes. Each note contains title, body, date and time when it should be remaind. 
-At the right time user get the information about the proper note. When application is not running, after the program start there are reminded all notes from the past which wasnt't reminded before.
+Program, which allows to save and read notes. Each note contains title, body, date and time when it should be remained. 
+At the right time user get the information about the proper note. When application is not running, all notes from the past which weren't remined are remined after the program start.
 
 <b>Code example</b>
   
